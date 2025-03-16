@@ -20,12 +20,6 @@
 % cada exercicio. Existe sim uma fórmula geral mas a Dr.Sofia Latas não 
 % iria gostar.
 
-%----------------------------Futuro das cabulas--------------------------%
-
-% Para quem quiser meter mãos neste documento e atualiza-lo, por favor 
-% mande novamente o documento atualizado. TOGETHER WE ARE STRONGER. 
-% Obrigado.
-
 %------------------------------------------------------------------------%
 
 %% Método de Euler - Primeira Ordem
