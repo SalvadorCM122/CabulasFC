@@ -5,10 +5,10 @@ Para cada método basta mudar os valores iniciais, as constantes e a função f.
 
 - Métodos implementados
 
-• Método de Euler (Primeira e Segunda Ordem)
-•  Método de Euler-Cromer (Segunda Ordem)
-•  Método de Crank-Nicolson (Primeira e Segunda Ordem)
-•  Método de Range-Kutta (Segunda e Quarta Ordem)
+• Método de Euler (Primeira e Segunda Ordem);
+•  Método de Euler-Cromer (Segunda Ordem);
+•  Método de Crank-Nicolson (Primeira e Segunda Ordem);
+•  Método de Range-Kutta (Segunda e Quarta Ordem);
 
 - Métodos que ainda faltam: Euler Implicito e formulas de Erros Globais
 
