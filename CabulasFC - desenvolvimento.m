@@ -1,4 +1,6 @@
 
+% ESTE É O FICHEIRO DE DESENVOLVIMENTO.
+
 %NOTAS DE COMO USAR ESTE FICHEIRO:
 
 %----------------------------Valores a se mudar--------------------------%
@@ -19,12 +21,6 @@
 % PS: O método de Euler Implicito não foi adicionado pois ele depende de
 % cada exercicio. Existe sim uma fórmula geral mas a Dr.Sofia Latas não 
 % iria gostar.
-
-%----------------------------Futuro das cabulas--------------------------%
-
-% Para quem quiser meter mãos neste documento e atualiza-lo, por favor 
-% mande novamente o documento atualizado. TOGETHER WE ARE STRONGER. 
-% Obrigado.
 
 %------------------------------------------------------------------------%
 
