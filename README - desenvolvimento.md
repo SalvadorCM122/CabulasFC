@@ -7,7 +7,7 @@
       Contém código em desemvolvimento, aceita sugestões, novo código e ajuda. 
 
 ## Como Usar Cábulas FC?
-O ficheiro CabulasFC contém alguns dos métodos utilizados. Para cada método basta mudar os valores iniciais, as constantes e a função f. A função $f$ é a função que se encontra na equação: $dx/dt = f(x,t)$
+O ficheiro CabulasFC contém alguns dos métodos utilizados. Para cada método basta mudar os valores iniciais, as constantes e a função $f$. A função $f$ é a função que se encontra na equação: $\frac{dx}{dt} = f(x,t)$
 
 ## Métodos Implementados
 
