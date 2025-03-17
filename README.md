@@ -11,7 +11,7 @@ To help, follow these steps:
 
 And most importantly:
 
-**DONT EVER EVER EVER PUSH TO MAIN (aka Código-Atual) WITHOUT APPROVAL**
+## **DONT EVER EVER EVER PUSH TO MAIN (aka Código-Atual) WITHOUT APPROVAL**
 That´s the branch people rely on. Lets make sure it only has approved code. Always upload/push to this branch (desenvolvimento).
 
 Happy coding! :)
