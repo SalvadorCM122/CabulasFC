@@ -9,9 +9,9 @@ To help, follow these steps:
 
 - You can upload code, solvers, functions, Live Scripts, notes, etc. Just make sure things are organized.
 
-  And most importantly:
+And most importantly:
 
-  **DONT EVER EVER EVER PUSH TO MAIN (aka Código-Atual) WITHOUT APPROVAL**
-  That´s the branch people rely on. Lets make sure it only has approved code. Always upload/push to this branch (desenvolvimento).
+**DONT EVER EVER EVER PUSH TO MAIN (aka Código-Atual) WITHOUT APPROVAL**
+That´s the branch people rely on. Lets make sure it only has approved code. Always upload/push to this branch (desenvolvimento).
 
-  Happy coding! :)
+Happy coding! :)
