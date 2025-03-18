@@ -358,7 +358,7 @@ function [t, x, v] = runge_kutta(fv, fx, t0, x0, v0, h, t_end)
     end
 end
 
-%%Método de Runge-Kutta de 3ªordem
+%% Método de Runge-Kutta de 3ªordem
 
 clc, clear all, close all
 
