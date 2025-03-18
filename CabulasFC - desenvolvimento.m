@@ -358,6 +358,76 @@ function [t, x, v] = runge_kutta(fv, fx, t0, x0, v0, h, t_end)
     end
 end
 
+%%Método de Runge-Kutta de 3ªordem
+
+clc, clear all, close all
+
+% Condições iniciais & finais
+t0 = 0 ; t_end = 50;
+x0 = 1; v0 = 1;
+h = 0.01;
+
+%Constantes 
+K = 1 ; m = 1; w = sqrt(K/m) ; alfa=-0.1;
+
+% Funções das derivadas x e v
+fv = @(t, x, v) -K/m*(x+2*alfa*x^3);  
+fx = @(t, x, v) v;          % dx/dt = v
+
+% Método Runge-Kutta 3ª ordem
+[t, x, v] = runge_kutta_3(fv, fx, t0, x0, v0, h, t_end);
+
+% Cálculo de Energia mecânica
+Em=1/2*m*v.^2+K/2*x.^2.*(1+alfa*x.^2);  % Energia total
+
+% Plot das soluções
+figure(1)
+plot(t, x, '-', t, v, '-');
+xlabel('t');
+ylabel('x & v');
+title('Solução Runge-Kutta 4ª ordem');
+legend('x(t)', 'v(t) = dx/dt');
+grid on;
+
+figure(2)
+plot(t, Em, '-');
+xlabel('t');
+ylabel('Em');
+title('Energia Mecânica');
+legend('Energia mecânica');
+grid on;
+
+function [t, x, v] = runge_kutta_3(fv, fx, t0, x0, v0, h, t_end)
+
+    % Criar os arrays para armazenar os dados
+    t = t0:h:t_end;  % Criar o array do tempo
+    N = length(t);   % Número de passos
+    x = zeros(1, N); % Inicializar a variável
+    v = zeros(1, N); % Inicializar a derivada da variável
+    x(1) = x0;       % Condição inicial da variável
+    v(1) = v0;       % Condição inicial da derivada da variável
+
+    % Iteração do método Runge-Kutta 2ª ordem
+    for k = 1:N-1
+        
+    % Parte 1
+        k1v = fv(t(k), x(k), v(k));
+        k1x = fx(t(k), x(k), v(k));
+
+        % Parte 2
+        k2v = fv(t(k) + h/2, x(k) + k1x * h/2, v(k) + k1v * h/2);
+        k2x = fx(t(k) + h/2, x(k) + k1x * h/2, v(k) + k1v * h/2);
+
+        % Parte 3
+        k3v = fv(t(k) + 3*h/4, x(k) + k2x * 3*h/4, v(k) + k2v * 3*h/4);
+        k3x = fx(t(k) + 3*h/4, x(k) + k2x * 3*h/4, v(k) + k2v * 3*h/4);
+
+        % Update de x e v
+        x(k+1) = x(k) + (h/9) * (2*k1x + 3*k2x + 4*k3x);
+        v(k+1) = v(k) + (h/9) * (2*k1v + 3*k2v + 4*k3v);
+    end
+
+end
 
 %% Método Runge-Kutta 4ª Ordem
 
