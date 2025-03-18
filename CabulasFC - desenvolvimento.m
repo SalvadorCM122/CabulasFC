@@ -291,7 +291,7 @@ function [t, x, v] = crank_nicolson(f, t0, x0, v0, h, t_end)
     end
 end
 
-%% Método Range-Kutta 2ª Ordem
+%% Método Runge-Kutta 2ª Ordem
 
 clc, clear all, close all
 
@@ -359,7 +359,7 @@ function [t, x, v] = runge_kutta(fv, fx, t0, x0, v0, h, t_end)
 end
 
 
-%% Método Range-Kutta 4ª Ordem
+%% Método Runge-Kutta 4ª Ordem
 
 clc, clear all, close all
 
