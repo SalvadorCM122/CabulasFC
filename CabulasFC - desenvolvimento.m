@@ -514,4 +514,7 @@ T=mean(Texp) %faz a média das diferenças retornando o período médio
 
 %% ERROS GLOBAIS
 
+% Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
+Ek=y(tk)-y(k)
+
 %ainda não sei o que fazer aqui
