@@ -504,6 +504,14 @@ function [t, x, v] = runge_kutta_4(fv, fx, t0, x0, v0, h, t_end)
 
 end
 
+%% Função islocalmax (achar picos numa função)
+
+Im=find(islocalmax(V)>0); %armazenamento dos índices dos picos locais
+Tm=t(Im); armazenamento dos tempos que correspondem a cada um desses ppicos
+nI=length(Im); % numero de picos
+Texp=diff(Tm); %retorna automaticamente todas as diferenças entre os picos consecutivoss
+T=mean(Texp) %faz a média das diferenças retornando o período médio
+
 %% ERROS GLOBAIS
 
 %ainda não sei o que fazer aqui
