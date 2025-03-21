@@ -170,8 +170,8 @@ function [t, x, v] = metodo_euler_cromer(f, t0, x0, v0, h, t_end)
 
     % Iteração para obter os valores (método de Euler)
     for n = 1:length(t)-1
-        x(n+1) = x(n) + h * v(n);  % Update da variável
-        v(n+1) = v(n) + h * f(t(n+1), x(n+1), v(n+1));  % Update da derivada   
+        v(n+1) = v(n) + h * f(t(n), x(n), v(n));  % Update da derivada
+        x(n+1) = x(n) + h * v(n+1);  % Update da variável           
     end
 end
 
