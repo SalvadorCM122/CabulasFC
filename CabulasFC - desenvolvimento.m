@@ -512,6 +512,65 @@ nI=length(Im); % numero de picos
 Texp=diff(Tm); %retorna automaticamente todas as diferenças entre os picos consecutivoss
 T=mean(Texp) %faz a média das diferenças retornando o período médio
 
+%% lagr
+
+%primeiro fazer metodo de euler-cromer ou crank-nicholson normalmente
+
+% **Determinação da Amplitude e Período**
+Im = find(islocalmax(x));  % Índices dos máximos locais
+Tm = t(Im);  % Tempos correspondentes aos máximos
+nI = length(Im);  
+
+% Inicializar arrays para amplitudes e períodos refinados
+Amp = zeros(1, nI - 2);
+Texp = zeros(1, nI - 2);
+
+% Aplicar interpolação de Lagrange aos picos
+for j = 2:nI-1
+    xm = t(Im(j-1:j+1));  % Três tempos vizinhos
+    ym = x(Im(j-1:j+1));  % Três valores de x correspondentes
+    max_values = lagr(xm, ym);  % Aplicar interpolação
+    Amp(j-1) = max_values(2);  % Amplitude refinada
+    Texp(j-1) = Tm(j) - Tm(j-1);  % Período entre máximos consecutivos
+end
+
+% Calcular amplitude e período médio
+Amplitude = mean(Amp);
+Periodo = mean(Texp);
+
+% Exibir resultados
+fprintf('Amplitude média: %.4f\n', Amplitude);
+fprintf('Período médio: %.4f\n', Periodo);
+
+function lagr=lagr(xm,ym)
+% determinacao de o ma'ximo de uma funcao discreta
+%
+% input: coordenadas de 3 pontos vizinhos de ordenadas maiores
+%            matrizes xm e ym
+% output: coordenadas do ponto máximo (xmax,ymax)
+
+%cálculo coeficientes para a interpolação quadrática
+xab=xm(1)-xm(2);
+xac=xm(1)-xm(3);
+xbc=xm(2)-xm(3);
+
+a=ym(1)/(xab*xac);
+b=-ym(2)/(xab*xbc);
+c=ym(3)/(xac*xbc);
+
+xml=(b+c)*xm(1)+(a+c)*xm(2)+(a+b)*xm(3);
+xmax=0.5*xml/(a+b+c);
+
+xta=xmax-xm(1);
+xtb=xmax-xm(2);
+xtc=xmax-xm(3);
+
+ymax=a*xtb*xtc+b*xta*xtc+c*xta*xtb;
+
+lagr(1)=xmax;
+lagr(2)=ymax;
+
+end
 %% ERROS GLOBAIS
 
 % Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
