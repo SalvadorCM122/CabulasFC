@@ -1,4 +1,3 @@
-
 %NOTAS DE COMO USAR ESTE FICHEIRO:
 
 %----------------------------Valores a se mudar--------------------------%
@@ -168,8 +167,8 @@ function [t, x, v] = metodo_euler_cromer(f, t0, x0, v0, h, t_end)
 
     % Iteração para obter os valores (método de Euler)
     for n = 1:length(t)-1
-        x(n+1) = x(n) + h * v(n);  % Update da variável
-        v(n+1) = v(n) + h * f(t(n+1), x(n+1), v(n+1));  % Update da derivada   
+        v(n+1) = v(n) + h * f(t(n), x(n), v(n));  % Update da derivada
+        x(n+1) = x(n) + h * v(n+1);  % Update da variável           
     end
 end
 
@@ -289,7 +288,7 @@ function [t, x, v] = crank_nicolson(f, t0, x0, v0, h, t_end)
     end
 end
 
-%% Método Range-Kutta 2ª Ordem
+%% Método Runge-Kutta 2ª Ordem
 
 clc, clear all, close all
 
@@ -356,8 +355,78 @@ function [t, x, v] = runge_kutta(fv, fx, t0, x0, v0, h, t_end)
     end
 end
 
+%% Método de Runge-Kutta de 3ªordem
 
-%% Método Range-Kutta 4ª Ordem
+clc, clear all, close all
+
+% Condições iniciais & finais
+t0 = 0 ; t_end = 50;
+x0 = 1; v0 = 1;
+h = 0.01;
+
+%Constantes 
+K = 1 ; m = 1; w = sqrt(K/m) ; alfa=-0.1;
+
+% Funções das derivadas x e v
+fv = @(t, x, v) -K/m*(x+2*alfa*x^3);  
+fx = @(t, x, v) v;          % dx/dt = v
+
+% Método Runge-Kutta 3ª ordem
+[t, x, v] = runge_kutta_3(fv, fx, t0, x0, v0, h, t_end);
+
+% Cálculo de Energia mecânica
+Em=1/2*m*v.^2+K/2*x.^2.*(1+alfa*x.^2);  % Energia total
+
+% Plot das soluções
+figure(1)
+plot(t, x, '-', t, v, '-');
+xlabel('t');
+ylabel('x & v');
+title('Solução Runge-Kutta 4ª ordem');
+legend('x(t)', 'v(t) = dx/dt');
+grid on;
+
+figure(2)
+plot(t, Em, '-');
+xlabel('t');
+ylabel('Em');
+title('Energia Mecânica');
+legend('Energia mecânica');
+grid on;
+
+function [t, x, v] = runge_kutta_3(fv, fx, t0, x0, v0, h, t_end)
+
+    % Criar os arrays para armazenar os dados
+    t = t0:h:t_end;  % Criar o array do tempo
+    N = length(t);   % Número de passos
+    x = zeros(1, N); % Inicializar a variável
+    v = zeros(1, N); % Inicializar a derivada da variável
+    x(1) = x0;       % Condição inicial da variável
+    v(1) = v0;       % Condição inicial da derivada da variável
+
+    % Iteração do método Runge-Kutta 2ª ordem
+    for k = 1:N-1
+        
+    % Parte 1
+        k1v = fv(t(k), x(k), v(k));
+        k1x = fx(t(k), x(k), v(k));
+
+        % Parte 2
+        k2v = fv(t(k) + h/2, x(k) + k1x * h/2, v(k) + k1v * h/2);
+        k2x = fx(t(k) + h/2, x(k) + k1x * h/2, v(k) + k1v * h/2);
+
+        % Parte 3
+        k3v = fv(t(k) + 3*h/4, x(k) + k2x * 3*h/4, v(k) + k2v * 3*h/4);
+        k3x = fx(t(k) + 3*h/4, x(k) + k2x * 3*h/4, v(k) + k2v * 3*h/4);
+
+        % Update de x e v
+        x(k+1) = x(k) + (h/9) * (2*k1x + 3*k2x + 4*k3x);
+        v(k+1) = v(k) + (h/9) * (2*k1v + 3*k2v + 4*k3v);
+    end
+
+end
+
+%% Método Runge-Kutta 4ª Ordem
 
 clc, clear all, close all
 
@@ -432,6 +501,76 @@ function [t, x, v] = runge_kutta_4(fv, fx, t0, x0, v0, h, t_end)
 
 end
 
+%% Função islocalmax (achar picos numa função)
+
+Im=find(islocalmax(V)>0); %armazenamento dos índices dos picos locais
+Tm=t(Im); armazenamento dos tempos que correspondem a cada um desses ppicos
+nI=length(Im); % numero de picos
+Texp=diff(Tm); %retorna automaticamente todas as diferenças entre os picos consecutivoss
+T=mean(Texp) %faz a média das diferenças retornando o período médio
+
+%% lagr
+
+%primeiro fazer metodo de euler-cromer ou crank-nicholson normalmente
+
+% **Determinação da Amplitude e Período**
+Im = find(islocalmax(x));  % Índices dos máximos locais
+Tm = t(Im);  % Tempos correspondentes aos máximos
+nI = length(Im);  
+
+% Inicializar arrays para amplitudes e períodos refinados
+Amp = zeros(1, nI - 2);
+Texp = zeros(1, nI - 2);
+
+% Aplicar interpolação de Lagrange aos picos
+for j = 2:nI-1
+    xm = t(Im(j-1:j+1));  % Três tempos vizinhos
+    ym = x(Im(j-1:j+1));  % Três valores de x correspondentes
+    max_values = lagr(xm, ym);  % Aplicar interpolação
+    Amp(j-1) = max_values(2);  % Amplitude refinada
+    Texp(j-1) = Tm(j) - Tm(j-1);  % Período entre máximos consecutivos
+end
+
+% Calcular amplitude e período médio
+Amplitude = mean(Amp);
+Periodo = mean(Texp);
+
+% Exibir resultados
+fprintf('Amplitude média: %.4f\n', Amplitude);
+fprintf('Período médio: %.4f\n', Periodo);
+
+function lagr=lagr(xm,ym)
+% determinacao de o ma'ximo de uma funcao discreta
+%
+% input: coordenadas de 3 pontos vizinhos de ordenadas maiores
+%            matrizes xm e ym
+% output: coordenadas do ponto máximo (xmax,ymax)
+
+%cálculo coeficientes para a interpolação quadrática
+xab=xm(1)-xm(2);
+xac=xm(1)-xm(3);
+xbc=xm(2)-xm(3);
+
+a=ym(1)/(xab*xac);
+b=-ym(2)/(xab*xbc);
+c=ym(3)/(xac*xbc);
+
+xml=(b+c)*xm(1)+(a+c)*xm(2)+(a+b)*xm(3);
+xmax=0.5*xml/(a+b+c);
+
+xta=xmax-xm(1);
+xtb=xmax-xm(2);
+xtc=xmax-xm(3);
+
+ymax=a*xtb*xtc+b*xta*xtc+c*xta*xtb;
+
+lagr(1)=xmax;
+lagr(2)=ymax;
+
+end
 %% ERROS GLOBAIS
+
+% Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
+Ek=y(tk)-y(k)
 
 %ainda não sei o que fazer aqui
