@@ -571,6 +571,34 @@ lagr(1)=xmax;
 lagr(2)=ymax;
 
 end
+
+%% ODE45
+clc, clear all, close all
+
+% Condições iniciais & finais
+t0 = 0 ; t_end = 100;
+x0 = 0.8; y0 = 0.3;
+h = 0.1;
+
+%Constantes 
+a=2; b=0.74; c=0.5; 
+
+options=odeset('RelTol',3E-14,'AbsTol',[1E-13 1E-13]);
+[t, sol] = ode45(@(t, sol) func(t, sol, a, b, c), t0:h:t_end, [x0 y0], options);
+
+x=sol(:,1);y=sol(:,2);
+
+plot(t,x)
+figure(2)
+plot(t,y)
+
+function derivadas=func(t,sol,a,b,c)
+        derivadas=zeros(2,1);
+        x=sol(1); y=sol(2);
+        derivadas(1)=x*(1-x)-a*x*y/(x+y);
+        derivadas(2)=-b*x*y/(x+y)-c*y;
+end
+
 %% ERROS GLOBAIS
 
 % Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
