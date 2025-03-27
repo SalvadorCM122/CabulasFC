@@ -304,6 +304,12 @@ grid on;
 
 %% Método Runge-Kutta 2ª Ordem
 
+% Exemplo de tabela de Butcher para RK2
+% 0   |
+% 1/2  | 1/2
+% ----|---------
+%     |  0   1
+
 clc, clear all, close all
 
 % Condições iniciais & finais
@@ -370,6 +376,12 @@ function [t, x, v] = runge_kutta(fv, fx, t0, x0, v0, h, t_end)
 end
 
 %% Método de Runge-Kutta de 3ªordem
+
+% 0   | 
+% 1/2 | 1/2 
+% 3/4  | 0   3/4   
+% ----|----------------
+%     |  2/9   1/3   4/9
 
 clc, clear all, close all
 
@@ -480,6 +492,13 @@ for k = 1:N-1
 end
 
 %% Método Runge-Kutta 4ª Ordem
+
+% 0   | 
+% 1/2 | 1/2 
+%1/2  | 0   1/2   
+% 1   | 0   0   1
+% ----|----------------
+%     |  1/6   1/3   1/3  1/6
 
 clc, clear all, close all
 
