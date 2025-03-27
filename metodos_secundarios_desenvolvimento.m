@@ -154,6 +154,44 @@ function derivadas=func(t,h,g,d,D)
         derivadas=-sqrt(g*2) * (d/D)^2*sqrt(h);%MUDAR A DERIVADA
 end
 
+%% Fsolve - crank-nicholson para sistemas não lineares
+
+clc, clear all, close all
+h=0.02;K=1;alfa=-0.1;m=1; tf=20; 
+x0=1;vx0=1;
+t=0:h:tf; N=length(t);
+x=zeros(1,N); vx=zeros(1,N);
+x(1)=x0;vx(1)=vx0; 
+
+const = [h/2, K*h/(2*m), 2*alfa]; % fazer uma matriz com todas as constantes necessárias no sistema
+options = optimset('Display','off','Tolx',1e-10,'TolFun',1e-10);
+
+for k=1:N-1
+    func = @(xv) fcr(xv,x(k),vx(k),const);
+    xv0 = [x(k),vx(k)]; % valores atuais de x e de dx/dt
+    aux = fsolve(func,xv0,options);
+    x(k+1) = aux(1);
+    vx(k+1) = aux(2);
+end
+
+Em=1/2*m*vx.^2+K/2*x.^2.*(1+alfa*x.^2);
+
+plot(t,x)
+hold on
+plot(t,vx)
+hold off
+
+figure (2)
+plot(t,Em)
+
+function F = fcr(xv,xold,vold,const)
+    % const(1), const(2) e const(3) estão definidas no programa principal.
+    % xold é x(k) e vold é vx(k).
+    % xv(1) é x(k+1) e xv(2) é vx(k+1).
+    F(1)=xv(1)-xold-const(1)*(xv(2)+vold); % colocar aqui a expressão de x(k+1)
+    F(2)=xv(2)-vold+const(2)*(xold+xv(1)+const(3)*(xold^3+xv(1)^3)); %colocar aqui a expressão de dx/dt(k+1) (v(k+1))
+end
+
 %% ERROS GLOBAIS
 
 % Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
