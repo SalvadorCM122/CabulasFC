@@ -439,6 +439,45 @@ function [t, x, v] = runge_kutta_3(fv, fx, t0, x0, v0, h, t_end)
     end
 
 end
+%% Runge-Kutta 3ª ordem só com uma função
+
+clc; clear all; close all;
+
+% Parâmetros do problema
+h0 = 0.35; % cm
+D = 0.35; % cm
+d = 0.025; % cm
+g = 9.81; % m/s²
+
+% Tempo de simulação
+t0 = 0; % s
+tf = 30; % s
+dt = 0.1; % Passo de tempo
+t = t0:dt:tf; % Vetor de tempo
+N = length(t); % Número de passos
+
+
+fh=@(t,h) -sqrt(g*2) * (d/D)^2*sqrt(h);
+
+
+% Inicialização das variáveis
+h = zeros(1, N);
+h(1) = h0;
+
+for k = 1:N-1
+        
+        % Parte 1
+        k1x = fh(t(k), h(k));
+
+        % Parte 2
+        k2x = fh(t(k) + dt/2, h(k) + k1x * dt/2);
+
+        % Parte 3
+        k3x = fh(t(k) + dt, h(k) -k1x*dt+ k2x *2*dt);
+
+        % Update de x e v
+        h(k+1) = h(k) + (dt/6) * (k1x + 4*k2x+k3x);
+end
 
 %% Método Runge-Kutta 4ª Ordem
 
