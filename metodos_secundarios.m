@@ -3,8 +3,8 @@
 clc, clear all, close all
 
 for i = 1:length(y)-1
-    if y(i) > 0
-        idx = i; %encontrar o primeiro indice negativo
+    if y(i) < 0
+        idx = i; %encontrar o primeiro indice negativo (quando é decrescente)
         break
     end
 end
