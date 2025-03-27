@@ -235,9 +235,9 @@ for k=1:N-1
     v(k+1)= Z(2,1);    
 end
 
-%% Método de Crank-Nicholson
+%% Método de Crank-Nicolson
 
-% O método de Crank-Nicholson não tem uma solução geral, é necessário resolver primeiro o sistema analiticamente (consultar folha de apontamentos)
+% O método de Crank-Nicolson não tem uma solução geral, é necessário resolver primeiro o sistema analiticamente (consultar folha de apontamentos)
 
 %Exemplo para o OHS
 
@@ -280,7 +280,7 @@ figure(1)
 plot(t, x, '-');
 xlabel('t');
 ylabel('x');
-title('Solução pelo método de Euler-implicito');
+title('Solução pelo método de Crank-Nicolson');
 grid on;
 
 % Plot da solução v
@@ -288,7 +288,7 @@ figure(2)
 plot(t, v, '-');
 xlabel('t');
 ylabel('v');
-title('Solução pelo método de Euler-implicito');
+title('Solução pelo método de Crank-Nicolson');
 grid on;
 
 % Plot da solução Et
@@ -296,7 +296,7 @@ figure(2)
 plot(t, Et, '-');
 xlabel('t');
 ylabel('Et');
-title('Solução pelo método de Euler-implicito');
+title('Solução pelo método de Crank-Nicolson');
 grid on;
 
 %% Método Runge-Kutta 2ª Ordem
