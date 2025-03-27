@@ -128,6 +128,32 @@ function derivadas=func(t,sol,a,b,c)
         derivadas(2)=-b*x*y/(x+y)-c*y; %MUDAR A EXPRESSÃO DA DERIVADA
 end
 
+%%ODE45 apenas uma funcao - exemplo
+
+clc; clear all; close all;
+
+% Parâmetros do problema
+h0 = 0.35; % cm
+D = 0.35; % cm
+d = 0.025; % cm
+g = 9.81; % m/s²
+
+% Tempo de simulação
+t0 = 0; % s
+tf = 30; % s
+dt = 0.1; % Passo de tempo
+t = t0:dt:tf; % Vetor de tempo
+N = length(t); % Número de passos
+
+options=odeset('RelTol',3E-14,'AbsTol',1E-13);
+[t, h] = ode45(@(t, h) func(t, h, g, d, D), t0:dt:tf, h0, options);
+
+plot(t,h)
+
+function derivadas=func(t,h,g,d,D)
+        derivadas=-sqrt(g*2) * (d/D)^2*sqrt(h);%MUDAR A DERIVADA
+end
+
 %% ERROS GLOBAIS
 
 % Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
