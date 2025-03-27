@@ -1,6 +1,3 @@
-
-% ESTE É O FICHEIRO DE DESENVOLVIMENTO.
-
 %NOTAS DE COMO USAR ESTE FICHEIRO:
 
 %----------------------------Valores a se mudar--------------------------%
