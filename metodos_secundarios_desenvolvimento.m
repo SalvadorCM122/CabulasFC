@@ -124,8 +124,8 @@ plot(t,y)
 function derivadas=func(t,sol,a,b,c)
         derivadas=zeros(2,1);
         x=sol(1); y=sol(2);
-        derivadas(1)=x*(1-x)-a*x*y/(x+y); %MUDAR A EXPRESSÃO DA DERIVADA
-        derivadas(2)=-b*x*y/(x+y)-c*y; %MUDAR A EXPRESSÃO DA DERIVADA
+        derivadas(1)=x*(1-x)-a*x*y/(x+y); %MUDAR A EXPRESSÃO DA DERIVADA - dx/dt=v
+        derivadas(2)=-b*x*y/(x+y)-c*y; %MUDAR A EXPRESSÃO DA DERIVADA - dv/dt
 end
 
 %%ODE45 apenas uma funcao - exemplo
