@@ -173,6 +173,11 @@ end
 %% Método de Euler-Ímplícito
 % O método de euler-ímplicito não tem uma solução geral, é necessário resolver primeiro o sistema analiticamente (consultar folha de apontamentos)
 
+% v(k+1)=v(k)+f(k+1)*h  (1)
+% y(k+1)=y(k)+v(k+1)*h  (2)
+% se resolver normalmente substituir 1 em 2 e deixar y(k+1) só em função de coeficientes k
+% se fizer por linsolve achar matriz dos coeficentes k+1 (A) e matriz dos coeficoentes k (igual a crank nicholson)
+
 clc, clear all, close all
 
 % Condições iniciais & finais 
@@ -239,6 +244,10 @@ for k=1:N-1
 end
 
 %% Método de Crank-Nicholson
+
+% v(k+1)=v(k)+[f(k)+f(k+1)]*h/2
+% y(k+1)=y(k)+(v(k)+v(k+1))*h/2
+% Achar matriz coefientes k+1 (A) e matriz coeficientes k (B)
 
 % O método de Crank-Nicholson não tem uma solução geral, é necessário resolver primeiro o sistema analiticamente (consultar folha de apontamentos)
 
