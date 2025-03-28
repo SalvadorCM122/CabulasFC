@@ -195,7 +195,7 @@ end
 %% ERROS GLOBAIS
 
 % Erro global corresponde à diferença entre o valor da diferença entre a solução analítica y(tk) e a solução numérica y(k)
-
+% hh=linspace(0.005,0.01,6);
 hh = [0.1,0.05,0.025,0.0125]; nh = length(hh) ; 
 Erro = zeros(1,nh);
 
