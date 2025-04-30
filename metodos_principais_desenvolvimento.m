@@ -582,3 +582,46 @@ function [t, x, v] = runge_kutta_4(fv, fx, t0, x0, v0, h, t_end)
 
 end
 
+%% Método de Shooting
+
+clc, clear all, close all
+
+%Constantes
+T = 5.0E4 ; w = 1.0E5 ; a = 5.0E-8; L=3; h=0.01;
+
+%Arrays
+x = 0:h:L ; N = length(x) ; y = zeros(1,N) ; y(1) = 0 ; y(L) = 0;
+
+%Relacionado a Shoooting
+guess(1) = -2; guess(2) = -2.2 ; B=0 ; tol = 1E-4;
+
+for is = 1:50
+    dy = zeros(1,N);
+    dy(1) = guess(is);
+
+    for k=1:N-1
+        dy(k+1) = dy(k) + h*(2*a*T*y(k) + a*w*x(k)*(L-x(k)));
+        y(k+1) = y(k) + h*dy(k+1);
+    end
+
+    result(is) = y(end);
+
+    if (is>1)
+        m = ( result(is) - result(is-1) ) / (guess(is) - guess(is-1));
+        guess(is+1) = guess(is) +  (B - result(is)) / m;
+
+        %Critério de Paragem
+
+        if abs(B - result(is)) < tol
+            fprintf('Numero de iterações %d',is)   
+            break
+        end
+    end
+end
+
+plot(x,y)
+xlabel("x (m)")
+ylabel("y (m)")
+
+
+
