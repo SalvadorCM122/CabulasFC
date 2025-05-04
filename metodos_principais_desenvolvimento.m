@@ -623,5 +623,50 @@ plot(x,y)
 xlabel("x (m)")
 ylabel("y (m)")
 
+%% Método de Jacobi
+
+clc; clear all; close all;
+
+% Definição da matriz A
+A = -eye(N,N);
+
+% Definição do vetor B
+B = zeros(N,1);
+
+% Inicialização do método de Jacobi
+
+x_old = zeros(N,1);
+x_new = zeros(N,1);
+max_iter = 1000;
+tol = 10E-7;
+
+for k = 1:max_iter
+    for i = 1:N
+        sigma = 0;
+        for j = 1:N
+            if j ~= i
+                sigma = sigma + A(i,j) * x_old(j);
+            end
+        end
+        x_new(i) = (B(i) - sigma) / A(i,i);
+    end
+
+    % Critério de paragem
+    if norm(x_new - x_old, inf) < tol
+        fprintf('Convergiu em %d iterações.\n', k);
+        break;
+    end
+    x_old = x_new;
+end
+
+% Solução com linsolve
+x_linsolve = linsolve(A, B);
+
+% Exibir resultados
+disp('Solução aproximada com Jacobi:');
+disp(x_new);
+
+disp('Solução exata com linsolve:');
+disp(x_linsolve);
 
 
