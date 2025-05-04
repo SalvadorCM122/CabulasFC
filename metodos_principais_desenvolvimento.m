@@ -601,7 +601,7 @@ for is = 1:50
 
     for k=1:N-1
         dy(k+1) = dy(k) + h*(2*a*T*y(k) + a*w*x(k)*(L-x(k)));
-        y(k+1) = y(k) + h*dy(k+1);
+        y(k+1) = y(k) + h*dy(k);
     end
 
     result(is) = y(end);
