@@ -595,7 +595,7 @@ x = 0:h:L ; N = length(x) ; y = zeros(1,N) ; y(1) = 0 ; y(L) = 0;
 %Relacionado a Shoooting
 guess(1) = -2; guess(2) = -2.2 ; B=0 ; tol = 1E-4;
 
-for is = 1:50
+for is = 1:150
     dy = zeros(1,N);
     dy(1) = guess(is);
 
