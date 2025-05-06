@@ -1,4 +1,5 @@
 %% loop para a matriz A e vetor b
+%Exemplo - teste315_16
 
 for i = 1:NM %NM - número de popntos internos
     A(i,i) = (2+2/eta);
@@ -19,5 +20,4 @@ for n=1:Nt-1 %Nt - número de pontos domínio temporal
     T(2:Nx-1,n+1)=linsolve(A,b);
 end
 
-%Exemplo - teste315_16
 
