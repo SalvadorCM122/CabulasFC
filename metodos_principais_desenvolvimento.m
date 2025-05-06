@@ -669,4 +669,14 @@ disp(x_new);
 disp('Solução exata com linsolve:');
 disp(x_linsolve);
 
+%% Diferenças finitas centradas
+
+f' = (T(k+1) - T(k-1)) / 2h
+f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
+
+%% Diferenças finitas avançadas
+
+f' = T(k+1) - T(k) / h
+f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
+
 
