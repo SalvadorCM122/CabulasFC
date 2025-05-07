@@ -149,6 +149,65 @@ plot(x,y)
 xlabel('x(m)');
 ylabel('y(m)');
 
+%% Diferenças finitas (condiçao de neumann e dirichlet)
+
+clc; clear; close all;
+
+% Dados do problema
+Q = 2.1e6;           % [W/m^3]
+lambda = 0.1;        % [W/(m.K)]
+R = 1e-3;            % [m]
+T_ext = 20;          % Temperatura na superfície externa [ºC]
+
+% Parâmetros da malha
+h = 0.00001;         % Passo radial
+r = 0:h:R;
+Nx = length(r);      % Número total de pontos
+N = Nx - 2;          % Número de pontos internos
+
+% Inicializa matriz A e vetor b
+A = zeros(N, N);
+b = zeros(N, 1);
+
+% Construção de A e b com diferenças finitas centradas
+for i = 1:N
+    ri = r(i+1); % Ponto interior correspondente (pula r=0 e r=R)
+    A(i,i) = -2 / h^2;
+    if i > 1
+        A(i,i-1) = 1/h^2 - 1/(2*h*ri);
+    end
+    if i < N
+        A(i,i+1) = 1/h^2 + 1/(2*h*ri);
+    end
+    b(i) = -Q / lambda; % constante do termo fonte
+end
+
+% Condições de fronteira:
+% T'(0) = 0 ⇒ T_1 = T_0 → modificar primeira equação
+A(1,1) = -2 / h^2;
+A(1,2) = 2 / h^2;
+
+% T(R) = 20 ºC ⇒ última equação (i = N) ajusta b(N)
+b(N) = b(N) - (1/h^2 + 1/(2*h*r(end-1))) * T_ext;
+
+% Resolve o sistema linear
+T_internal = linsolve(A, b);
+
+% Concatena com as condições de fronteira
+T = [T_internal(1); T_internal; T_ext];
+
+% Plot do perfil de temperatura
+plot(r, T, 'LineWidth', 2)
+xlabel('r [m]')
+ylabel('Temperatura [ºC]')
+title('Perfil de Temperatura na Resistência Elétrica Cilíndrica')
+grid on
+
+% Encontra valor máximo de temperatura
+[T_max, idx_max] = max(T);
+r_max = r(idx_max);
+fprintf('Temperatura máxima: %.2f ºC ocorre em r = %.6f m\n', T_max, r_max);
+
 %% Método de Jacobi
 
 clc; clear all; close all;
