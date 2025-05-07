@@ -195,6 +195,49 @@ disp(x_new);
 disp('Solução exata com linsolve:');
 disp(x_linsolve);
 
+%% Crank Nicholson - barra temperatura
+clc; close all; clear all
+
+%constantes
+k=0.93; c=0.094; p=8.9;
+L=50; dx=0.1; dt=1;
+x=0:dx:L; t=0:dt:500; Nx=length(x);Nt=length(t);
+NM=Nx-2;
+eta=k*dt/(c*p*dx^2);
+f=2*exp(-(x-L/2).^2);
+
+T=zeros(Nx,Nt);
+T(:,1)=linspace(0,20,Nx);
+T(1,:)=0;
+T(Nx,:)=20;
+
+A=zeros(NM); b=zeros(NM,1);
+
+for i = 1:NM
+    A(i,i) = (2+2/eta);
+    if i > 1
+        A(i,i-1) = -1;
+    end
+    if i ~= NM
+        A(i,i+1) = -1;
+    end
+end
+
+for n=1:Nt-1
+    for i=1:NM
+        b(i)=T(i+2,n)+(2/eta-2)*T(i+1,n)+T(i,n)+dt*f(i+1)/eta;
+    end
+    b(1) = b(1) + T(1,n+1);   
+    b(NM) = b(NM) + T(end,n+1); 
+    T(2:Nx-1,n+1)=linsolve(A,b);
+end
+
+figure(1)
+contourf(x,t,T')
+
+figure(2)
+mesh(x,t,T')
+
 %% Diferenças finitas centradas
 
 f' = (T(k+1) - T(k-1)) / 2h
