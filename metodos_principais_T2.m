@@ -297,12 +297,12 @@ contourf(x,t,T')
 figure(2)
 mesh(x,t,T')
 
-%% Diferenças finitas centradas
+%% Diferenças finitas centradas (espaço)
 
 f' = (T(k+1) - T(k-1)) / 2h
 f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
 
-%% Diferenças finitas avançadas
+%% Diferenças finitas avançadas (temporal)
 
 f' = T(k+1) - T(k) / h
 f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
