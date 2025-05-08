@@ -306,3 +306,9 @@ f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
 
 f' = T(k+1) - T(k) / h
 f'' = (T(k-1) - 2*T(k) + T(k+1)) / h^2
+
+%% Formula das diferenças por Crank Nicolson
+
+f'' = (T(k-1,n+1) - 2*T(k,n+1) + T(k+1,n+1) + T(k-1,n) - 2*T(k,n) + T(k+1,n)) / (2*h^2) % Se for centrada
+
+
