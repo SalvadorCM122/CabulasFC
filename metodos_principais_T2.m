@@ -311,4 +311,79 @@ f'' = (T(i,n-1) - 2*T(i,n) + T(i,n+1)) / h^2
 
 f'' = (T(i-1,n+1) - 2*T(i,n+1) + T(i+1,n+1) + T(i-1,n) - 2*T(i,n) + T(i+1,n)) / (2*h^2) % Se for centrada
 
+%% Relaxação de Jacobi (exemplo do ex3.4 FR2)
+clc; clear all; close all
 
+Ms = [21, 41, 61, 81, 101, 121];  % diferentes valores de M
+numIter = zeros(1,length(Ms));       % número de iterações para cada M
+tol = 1e-5;                       % tolerância de convergência
+
+% loop para os valores de M
+for m = 1:length(Ms)
+    M = Ms(m);
+    x = linspace(-1, 1, M);
+    y = linspace(-1, 1, M);
+    h = 2/(M - 1); %espaçamento da malha
+    f = zeros(M, M); %matriz fonte
+
+    % Montar f(x,y)
+    for i = 1:M
+        for j = 1:M
+            f(i,j) = -2*(2 - x(j)^2 - y(i)^2);
+        end
+    end
+
+    % Inicializar T
+    Told = zeros(M, M); %solução iteração anterior
+    Tnew = Told; %nova solução com zeros
+
+    %loop iterativo de Jacobi
+    itmax = 10000;
+    for l = 1:itmax
+        for i = 2:M-1
+            for j = 2:M-1
+                Tnew(i,j) = 0.25 * (Told(i-1,j) + Told(i+1,j) + Told(i,j-1) + Told(i,j+1) - h^2 * f(i,j));
+            end
+        end
+
+        % critério de paragem (erro relativo entre duas iterações consecutivas)
+        num = sqrt(sum(sum((Tnew - Told).^2)));
+        den = sqrt(sum(sum(Tnew.^2)));
+        if num / den < tol
+            break
+        end
+        Told = Tnew;
+    end
+
+    numIter(m) = l;  % guardar iterações
+end
+
+% Malha para gráfico
+[X, Y] = meshgrid(x, y);
+
+% Gráficos
+figure(1)
+contourf(X, Y, Tnew, 20)
+colorbar
+title('Contorno de T(x,y)')
+
+figure(2)
+mesh(X, Y, Tnew)
+xlabel('x'); ylabel('y'); zlabel('T(x,y)')
+title('Distribuição de T(x,y)')
+
+% Plot log-log
+logM = log(Ms);
+logIter = log(numIter);
+
+figure (3)
+plot(logM, logIter, 'o-')
+xlabel('log(M)')
+ylabel('log(nº de iterações)')
+title('Convergência vs Tamanho da malha')
+grid on
+
+% Regressão linear para declive
+p = polyfit(logM, logIter, 1);
+slope = p(1);
+fprintf('Declive da reta (taxa de convergência): %.2f\n', slope);
