@@ -39,6 +39,8 @@ plot(x,y)
 xlabel("x (m)")
 ylabel("y (m)")
 
+%------------------------------------------------------------------------------------------------%
+
 %% Shooting com ODE45
 clc; close all; clear all;
 
@@ -89,6 +91,8 @@ function derivadas=func(t, sol, m, K,alpha)
         derivadas(1)=y; %MUDAR A EXPRESSÃO DA DERIVADA - dx/dt=v - primeira derivada ou função
         derivadas(2)=-K*x/m*(1+3*alpha*x/2); %MUDAR A EXPRESSÃO DA DERIVADA - dv/dt - segunda derivada ou função
 end
+
+%------------------------------------------------------------------------------------------------%
 
 %% Shooting com 2 Eulers
 
@@ -149,6 +153,8 @@ plot(x,y)
 xlabel('x(m)');
 ylabel('y(m)');
 
+%------------------------------------------------------------------------------------------------%
+
 %% Diferenças finitas (condiçao de neumann e dirichlet)
 
 clc; clear; close all;
@@ -208,6 +214,8 @@ grid on
 r_max = r(idx_max);
 fprintf('Temperatura máxima: %.2f ºC ocorre em r = %.6f m\n', T_max, r_max);
 
+%------------------------------------------------------------------------------------------------%
+
 %% Método de Jacobi
 
 clc; clear all; close all;
@@ -253,6 +261,8 @@ disp(x_new);
 
 disp('Solução exata com linsolve:');
 disp(x_linsolve);
+
+%------------------------------------------------------------------------------------------------%
 
 %% Relaxação de Jacobi (exemplo do ex3.4 FR2)
 clc; clear all; close all
@@ -331,6 +341,7 @@ p = polyfit(logM, logIter, 1);
 slope = p(1);
 fprintf('Declive da reta (taxa de convergência): %.2f\n', slope);
 
+%------------------------------------------------------------------------------------------------%
 
 %% Crank Nicholson - barra temperatura
 clc; close all; clear all
@@ -374,6 +385,8 @@ contourf(x,t,T')
 
 figure(2)
 mesh(x,t,T')
+
+%------------------------------------------------------------------------------------------------%
 
 %% Diferenças finitas centradas (espaço)
 
