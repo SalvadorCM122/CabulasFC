@@ -154,6 +154,35 @@ xlabel('x(m)');
 ylabel('y(m)');
 
 %------------------------------------------------------------------------------------------------%
+
+%% Diferenças finitas com Euler (exemplo teste 21_22)
+
+clc; close all; clear all
+
+%constantes
+L=1; a=0.01; u=0.1;
+dx=0.05; h=0.125; B=a/dx^2; C=u/(2*dx);
+%arrays
+x=0:dx:L; t=0:h:50;
+Nx=length(x); Nt=length(t);
+
+T=zeros(Nx,Nt); T(1,:)=0; T(Nx,:)=100; T(:,1)=100*(x/L);
+
+for n=1:Nt-1
+    for i=2:Nx-1
+        T(i,n+1)=T(i,n)+h*(B*(T(i+1,n)-2*T(i,n)+T(i-1,n))-C*(T(i+1,n)-T(i-1,n)));
+    end
+end
+
+plot(x,T(:,1:10:end))
+
+T_est=100*(exp(10*x/L)-1)/(exp(10)-1);
+
+figure(2)
+plot(x,T(:,end),'r',x,T_est,'b')
+
+%------------------------------------------------------------------------------------------------%
+
 %% Diferenças finitas (exemplo teste 16_17)
 clc; clear; close all;
 
