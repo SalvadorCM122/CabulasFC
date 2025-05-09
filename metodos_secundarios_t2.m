@@ -96,8 +96,26 @@ for n=1:Nt-1
     T(2:Nx-1,n+1)=U\y; 
 end
 
-
 figure(1)
 contourf(x,t,T')
+
+%------------------------------------------------------------------------------------------------%
+
+%% Achar um valor por interseção 
+
+clc, clear all, close all
+
+for i = 1:length(y)-1
+    if y(i) > 0
+        idx = i; %encontrar o primeiro indice negativo
+        break
+    end
+end
+
+%interp1(y(entre positivo a negativo) , x(entre positivo a negativo), valor
+%que quero intersetar)
+
+inter = interp1(y(idx-1:idx),x(idx-1:idx),  0);
+disp(['Valor correspondente: ', num2str(inter)]);
 
 
