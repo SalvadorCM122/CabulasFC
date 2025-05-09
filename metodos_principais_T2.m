@@ -154,6 +154,46 @@ xlabel('x(m)');
 ylabel('y(m)');
 
 %------------------------------------------------------------------------------------------------%
+%% Diferenças finitas (exemplo teste 16_17)
+clc; clear; close all;
+
+% Dados do problema
+L=5; gama=-1.5; e=2; 
+
+% Parâmetros da malha
+h = 0.01;         % Passo radial
+x = 0:h:L;
+Nx = length(x);      % Número total de pontos
+N = Nx - 2;          % Número de pontos internos
+
+% Inicializa matriz A e vetor b
+A = zeros(N, N);
+b = zeros(N, 1);
+
+%Construção de A e b com diferenças finitas centradas
+for i = 1:N
+    A(i,i) = -4*e;
+    if i > 1
+        A(i,i-1) = 2*e+h;
+    end
+    if i ~= N
+        A(i,i+1) = 2*e-h;
+    end
+    b(i) = 2*h^2*gama; % constante do termo fonte
+end
+
+%atender às condições fronteira
+b(1)   = b(1)   - (2*e + h)*20;   % T(0) = 20 
+b(end) = b(end) - (2*e - h)*50;   % T(L) = 50
+
+T_int=linsolve(A,b);
+T=[20;T_int;50];
+
+% b
+
+T_a=T(1)-gama*x+(T(end)-T(1)+gama*L)*((exp(x/e)-1)/(exp(L/e)-1)); %expressão analítica
+
+plot(x,T,x,T_a,'r')
 
 %% Diferenças finitas (condiçao de neumann e dirichlet)
 
