@@ -54,46 +54,6 @@ for i=n_tri-1:-1:1
 end
 
 %% crack usando LU
-clc; clear all; close all
-
-L=50; T0=0; Tf=0; k=0.93; c=0.094; p=8.9;
-dt=0.2; tf=500; t=0:dt:tf; Nt=length(t); 
-dx=0.5; x=0:dx:L; Nx=length(x);  
-eta=k*dt/(c*p*dx^2);
-NM=Nx-2;
-
-T=zeros(Nx,Nt);
-T(1,:)=T0; T(Nx,:)=Tf;
-T(2:Nx-1,1)=100;
-
-D1=(2/eta+2);
-A= eye (NM);
-A=D1*A; % matriz diagonal, diagonal principal
-A(1,2)=-1; % 2º elemento da 1ª linha
-for i=2:NM-1
-    A(i,i-1)=-1; % diagonal superior
-    A(i,i+1)=-1; % diagonal inferior
-end
-A (NM,NM-1)=-1; % penúltimo elemento da última linha
-
-b=zeros(Nx-2,1);
-D2=(2/eta-2);
-
-for n=1:Nt-1
-    for i=1:Nx-2
-    b(i) = T(i,n)+D2*T(i+1,n)+T(i+2,n);
-    end
-
-    b(1)=b(1)+T(1,n+1); % é preciso adicionar a CF
-    b(NM)=b(NM)+T(Nx,n+1); % CF
-    T(2:Nx-1,n+1)=sol_sist_trid(A,b);
-end
-
-
-figure(1)
-contourf(x,t,T')
-
-%% c)
 
 clc; clear all; close all
 
