@@ -426,6 +426,53 @@ contourf(x,t,T')
 figure(2)
 mesh(x,t,T')
 
+
+%------------------------------------------------------------------------------------------------%
+
+%% Cranck com função adicional (exemplo FR2(2.3))
+clc; close all; clear all
+
+dz=0.1; dx=0.5; alfa=0.2;
+eta=1i*dz/(4*dx^2);
+
+%arrays
+x=-20:dx:20; Nx=length(x);
+z=0:dz:16; Nz=length(z); 
+NM=Nx-2;
+phi=zeros(Nx,Nz);
+phi(:,1)=exp(-x.^2/2);
+phi(1,:)=0; phi(Nx,:)=0; %Condição fronteira
+
+qsi=-2*alfa*dx^2;
+
+A=eye(NM); b=zeros(NM,1);
+
+for j = 1:NM
+    A(j,j) = (2+1/eta-qsi*x(j+1)^2);
+    if j > 1
+        A(j,j-1) = -1;
+    end
+    if j ~= NM
+        A(j,j+1) = -1;
+    end
+end
+
+for n=1:Nz-1
+    for j=1:NM
+        b(j)=phi(j+2,n)+(1/eta-2+qsi*x(j+1)^2)*phi(j+1,n)+phi(j,n);
+    end
+    b(1) = b(1) + phi(1,n+1);   
+    b(NM) = b(NM) + phi(end,n+1); 
+    phi(2:Nx-1,n+1)=linsolve(A,b);
+end
+
+figure(1)
+contourf(x,z,abs(phi)')
+
+figure(2)
+mesh(x,z,abs(phi)')
+
+
 %------------------------------------------------------------------------------------------------%
 
 %% Diferenças finitas centradas (espaço)
