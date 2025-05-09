@@ -1,6 +1,7 @@
 %% loop para a matriz A e vetor b
 %Exemplo - teste315_16
 
+
 for i = 1:NM %NM - número de popntos internos
     A(i,i) = (2+2/eta);
     if i > 1
@@ -19,6 +20,10 @@ for n=1:Nt-1 %Nt - número de pontos domínio temporal
     b(NM) = b(NM) + T(end,n+1); 
     T(2:Nx-1,n+1)=linsolve(A,b);
 end
+
+% A = c1*eye(NM) + diag(c2*ones(NM-1,1),1) +diag(c3*ones(NM-1,1),-1)
+
+%------------------------------------------------------------------------------------------------%
 
 %% sol_sist_trid
 
